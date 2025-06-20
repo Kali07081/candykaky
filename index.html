@@ -119,6 +119,36 @@
             background-color: #330000;
             color: #fff;
         }
+
+        /* Jumpscare tela cheia */
+        #jumpscare {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #jumpscare img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .flicker {
+            animation: flicker 0.2s alternate infinite;
+        }
+
+        @keyframes flicker {
+            0% { background-color: #ff0000; }
+            50% { background-color: #000; }
+            100% { background-color: #ff0000; }
+        }
     </style>
 </head>
 <body>
@@ -165,8 +195,13 @@
         </div>
     </div>
 
+    <!-- JUMPSCARE ELEMENT -->
+    <div id="jumpscare">
+        <img src="https://i.imgur.com/ZC8pKLF.jpg" alt="Jumpscare">
+    </div>
+
     <footer>
-        <p>&copy; 2025 Candy Kaky. Feito com muito doce 😈</p>
+        <p>&copy; 2025 Candy Kaky. Feito com muito doce e sustos 😈</p>
     </footer>
 
     <!-- Áudio do jumpscare -->
@@ -190,13 +225,23 @@
             } else {
                 resultDiv.innerHTML = "❌ Errou! Tenta de novo!";
                 resultDiv.style.color = '#ff3333';
-                audio.currentTime = 0;
-                audio.play();
-                document.body.classList.add('shake');
-                setTimeout(() => {
-                    document.body.classList.remove('shake');
-                }, 300);
+                triggerJumpscare();
             }
+        }
+
+        function triggerJumpscare() {
+            const jumpscare = document.getElementById('jumpscare');
+            document.body.classList.add('shake');
+            document.body.classList.add('flicker');
+            jumpscare.style.display = 'flex';
+            audio.currentTime = 0;
+            audio.play();
+
+            setTimeout(() => {
+                jumpscare.style.display = 'none';
+                document.body.classList.remove('shake');
+                document.body.classList.remove('flicker');
+            }, 2000); // Jumpscare dura 2 segundos
         }
     </script>
 
